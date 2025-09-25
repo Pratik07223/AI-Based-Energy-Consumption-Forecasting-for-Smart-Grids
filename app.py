@@ -482,15 +482,23 @@ def main():
                     lstm_pred = scaler_y.inverse_transform(lstm_pred_scaled.reshape(-1, 1)).ravel()
                     y_test_lstm = scaler_y.inverse_transform(y_test_seq.reshape(-1, 1)).ravel()
                     
-                    # Calculate metrics
-                    lstm_rmse = np.sqrt(mean_squared_error(y_test_lstm, lstm_pred))
-                    lstm_mae = mean_absolute_error(y_test_lstm, lstm_pred)
-                    lstm_r2 = r2_score(y_test_lstm, lstm_pred)
-                    
-                    st.session_state['lstm_pred'] = lstm_pred
-                    st.session_state['y_test_lstm'] = y_test_lstm
-                    st.session_state['lstm_metrics'] = lstm_metrics
-                
+                   # Calculate metrics
+                lstm_rmse = np.sqrt(mean_squared_error(y_test_lstm, lstm_pred))
+                lstm_mae = mean_absolute_error(y_test_lstm, lstm_pred)
+                lstm_r2 = r2_score(y_test_lstm, lstm_pred)
+
+# Create dictionary of metrics
+                lstm_metrics = {
+    "RMSE": lstm_rmse,
+    "MAE": lstm_mae,
+    "R2": lstm_r2
+}
+
+# Save results to session state
+                st.session_state['lstm_pred'] = lstm_pred
+                st.session_state['y_test_lstm'] = y_test_lstm
+                st.session_state['lstm_metrics'] = lstm_metrics
+
                 st.success("🎉 All models trained successfully!")
     
     with tab4:
